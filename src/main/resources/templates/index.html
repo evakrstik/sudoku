@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="shortcut icon" type="image/png" th:href="@{/favicon.png}" />
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+</head>
+
+<body onload="onGameLoad()">
+    <nav>
+        <div class="nav-container">
+            <a href="/home" class="nav-logo">
+                <img src="icons8-sudoku-100.png" alt="sudoku-logo">
+            </a>
+            <div class="small">
+                <div class="toggle-switch">
+                    <label class="toggle-switch-label">
+                        <input class="customInput" type="checkbox" onclick="switchTheme()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+    <div class="main">
+        <div class="screen">
+            <form method="post">
+                <input type="hidden" id="val" name="val" />
+                <table>
+                    <tbody>
+                        <tr th:each="row, i: ${board}">
+                            <td th:each="cell, j: ${row}">
+                                <span th:switch="${cell}">
+                                    <div th:case="0">
+                                        <input class="no-outline" type="number" min="1" max="9" th:value="null"
+                                            th:attr="data-row=${i.index}, data-col=${j.index}"
+                                            th:onchange="'val.value=this.value; this.form.row.value = ' + ${i.index} + '; this.form.col.value = ' + ${j.index} + '; this.form.submit();'" />
+                                    </div>
+                                    <div th:case="*">
+                                        <p th:text="${cell}"></p>
+                                    </div>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" name="row" />
+                <input type="hidden" name="col" />
+            </form>
+            <br>
+            <span th:if="${error}" class="error" th:text="${error}"></span>
+            <span th:if="${success}" class="success" th:text="${success}"></span>
+            <div class="bottomRow">
+                <form method="get" th:action="@{/reset}">
+                    <input class="resetBtn" type="submit" value="Change Difficulty">
+                </form>
+                <form method="get" th:action="@{/undo}">
+                    <input class="undoBtn" type="submit" value="Undo">
+                </form>
+                <div class="smallSpacer"></div>
+                <form method="get" th:action="@{/solve}">
+                    <input class="solveBtn" type="submit" value="Solve">
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="playerStats">
+        <h1>Player: <span th:if="${username}" class="username" th:text="${username}"></h1>
+        <h1>Games won: <span th:if="${gamesWon}" th:text="${gamesWon}"></h1>
+        <span th:unless="${success}"><div id="timer"></div></span>
+    </div>
+    <br>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="shortcut icon" type="image/png" th:href="@{/favicon.png}" />
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/home" class="nav-logo">
+                <img src="icons8-sudoku-100.png" alt="sudoku-logo">
+            </a>
+            <div class="small">
+                <div class="toggle-switch">
+                    <label class="toggle-switch-label">
+                        <input class="customInput" type="checkbox" onclick="switchTheme()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+    <div class="main">
+        <div class="screen">
+            <h1>Choose difficulty: </h1>
+            <form method="post" th:action="@{/home}">
+                <input type="hidden" name="difficulty"/>
+                <input class="diffBtn" type="submit" value="EASY" th:onclick="this.form.difficulty.value=1;"/>
+            </form>
+            <div class="spacer"></div>
+            <form method="post" th:action="@{/home}">
+                <input type="hidden" name="difficulty"/>
+                <input class="diffBtn" type="submit" value="MEDIUM" th:onclick="this.form.difficulty.value=2;"/>
+            </form>
+            <div class="spacer"></div>
+            <form method="post" th:action="@{/home}">
+                <input type="hidden" name="difficulty"/>
+                <input class="diffBtn" type="submit" value="HARD" th:onclick="this.form.difficulty.value=3;"/>
+            </form>
+        </div>
+    </div>
+    <br>
+    <span th:if="${error}" class="error" th:text="${error}"></span>
+</body>
+
+</html>
